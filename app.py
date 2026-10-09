@@ -7,7 +7,7 @@ import uuid
 
 app = Flask(__name__)
 app.secret_key = "tractor-booking-secret-key"
-DB = "database.db"
+DB = "/tmp/database.db"
 
 def get_db():
     conn = sqlite3.connect(DB)
