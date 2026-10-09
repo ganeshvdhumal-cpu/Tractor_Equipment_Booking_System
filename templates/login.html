@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2 class="fw-bold mb-2">Welcome Back</h2>
+<p class="text-muted">Login to continue booking.</p>
+<form method="POST">
+<label>Email</label><input class="form-control mb-3" type="email" name="email" required>
+<label>Password</label><input class="form-control mb-3" type="password" name="password" required>
+<button class="btn btn-success w-100">Login</button>
+</form>
+<div class="text-center mt-3">New farmer? <a href="{{ url_for('register') }}">Create account</a></div>
+<div class="demo-box mt-3"><b>Admin Demo:</b><br>admin@gmail.com / admin123</div>
+</div>
+</div>
+{% endblock %}

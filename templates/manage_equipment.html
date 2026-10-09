@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Manage Equipment{% endblock %}
+{% block content %}
+<div class="container py-5">
+<h2 class="fw-bold mb-4">Manage Equipment</h2>
+<div class="card shadow-sm p-4 mb-4">
+<h5>Add New Equipment</h5>
+<form method="POST" class="row g-3">
+<div class="col-md-6"><input class="form-control" name="name" placeholder="Equipment name" required></div>
+<div class="col-md-6"><input class="form-control" name="category" placeholder="Category" required></div>
+<div class="col-md-4"><input class="form-control" name="model" placeholder="Model"></div>
+<div class="col-md-4"><input class="form-control" type="number" name="rent" placeholder="Rent per day" required></div>
+<div class="col-md-4"><input class="form-control" name="image" placeholder="Image filename"></div>
+<div class="col-12"><textarea class="form-control" name="description" placeholder="Description"></textarea></div>
+<div class="col-12"><button class="btn btn-success">Add Equipment</button></div>
+</form>
+</div>
+<div class="table-responsive">
+<table class="table table-bordered bg-white">
+<tr class="table-success"><th>ID</th><th>Name</th><th>Category</th><th>Rent</th><th>Action</th></tr>
+{% for e in equipment %}
+<tr><td>{{ e.id }}</td><td>{{ e.name }}</td><td>{{ e.category }}</td><td>₹{{ e.rent }}</td><td><a class="btn btn-sm btn-danger" href="{{ url_for('delete_equipment', eid=e.id) }}">Delete</a></td></tr>
+{% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}

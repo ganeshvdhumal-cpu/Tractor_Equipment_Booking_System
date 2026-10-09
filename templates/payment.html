@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2 class="fw-bold mb-2">💳 Secure Payment</h2>
+<p class="text-muted">Booking #{{ booking.id }} · {{ booking.equipment_name }}</p>
+<div class="demo-box mb-3">
+<strong>Total Amount: ₹{{ "%.2f"|format(booking.total) }}</strong><br>
+<small>Razorpay Test Mode is recommended for your college project demo.</small>
+</div>
+
+{% if payment and payment.status == 'Paid' %}
+<div class="alert alert-success">Payment already completed.<br>Payment ID: {{ payment.payment_id }}</div>
+<a href="{{ url_for('my_bookings') }}" class="btn btn-success w-100">Back to My Bookings</a>
+{% else %}
+{% if razorpay_key %}
+<button id="rzp-button" class="btn btn-success w-100">Pay ₹{{ "%.2f"|format(booking.total) }} with Razorpay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const options = {
+    key: "{{ razorpay_key }}",
+    amount: {{ (booking.total * 100)|int }},
+    currency: "INR",
+    name: "AgriBook",
+    description: "Tractor & Equipment Booking #{{ booking.id }}",
+    handler: function (response) {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{{ url_for('payment_success', bid=booking.id) }}";
+        const input = document.createElement("input");
+        input.type = "hidden"; input.name = "payment_id";
+        input.value = response.razorpay_payment_id || "";
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    },
+    prefill: { name: "{{ session.get('name','') }}" },
+    theme: { color: "#198754" }
+};
+document.getElementById("rzp-button").onclick = function(e) {
+    new Razorpay(options).open();
+    e.preventDefault();
+};
+</script>
+{% else %}
+<div class="alert alert-warning">
+Razorpay key is not configured. For a quick college demonstration, use the demo payment button below.
+</div>
+<form method="POST" action="{{ url_for('payment_success', bid=booking.id) }}">
+<input type="hidden" name="payment_id" value="">
+<button class="btn btn-success w-100">Complete Demo Payment ₹{{ "%.2f"|format(booking.total) }}</button>
+</form>
+{% endif %}
+<a href="{{ url_for('my_bookings') }}" class="btn btn-outline-secondary w-100 mt-2">Pay Later</a>
+{% endif %}
+</div>
+</div>
+{% endblock %}

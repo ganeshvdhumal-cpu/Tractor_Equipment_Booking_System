@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Book Equipment{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2 class="fw-bold">Book {{ item.name }}</h2>
+<p class="text-success">Rate: ₹{{ "%.0f"|format(item.rent) }} / day</p>
+<form method="POST">
+<label>Booking Date</label>
+<input class="form-control mb-3" type="date" name="booking_date" id="booking_date" required>
+<label>Duration (days)</label>
+<input class="form-control mb-3" type="number" name="duration" min="1" max="30" value="1" required>
+<label>Farm / Work Location</label>
+<textarea class="form-control mb-3" name="location" rows="3" placeholder="Enter village/farm location" required></textarea>
+<button class="btn btn-success w-100">Submit Booking Request</button>
+</form>
+<script>document.getElementById("booking_date").min = new Date().toISOString().split("T")[0];</script>
+</div>
+</div>
+{% endblock %}

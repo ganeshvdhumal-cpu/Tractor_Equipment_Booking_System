@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Home - AgriBook{% endblock %}
+{% block content %}
+<section class="hero">
+<div class="container">
+<div class="hero-content">
+<span class="badge bg-warning text-dark mb-3">SMART FARMING SOLUTION</span>
+<h1>Book Tractor & Farm Equipment Easily</h1>
+<p>Find reliable agricultural machines, choose your date and submit a booking request from your mobile.</p>
+<a href="#equipment" class="btn btn-warning btn-lg">Explore Equipment</a>
+</div>
+</div>
+</section>
+
+<div class="container py-5" id="equipment">
+<div class="text-center mb-4">
+<h2 class="fw-bold">Available Equipment</h2>
+<p class="text-muted">Choose the right machine for your farm work.</p>
+</div>
+<div class="row g-4">
+{% for item in equipment %}
+<div class="col-md-6 col-lg-4">
+<div class="card equipment-card h-100 shadow-sm">
+<div class="equipment-image">🚜</div>
+<div class="card-body">
+<span class="badge text-bg-success mb-2">{{ item.category }}</span>
+<h4>{{ item.name }}</h4>
+<p class="text-muted">{{ item.description }}</p>
+<h5 class="text-success">₹{{ "%.0f"|format(item.rent) }} / day</h5>
+<a href="{{ url_for('equipment_details', eid=item.id) }}" class="btn btn-success w-100 mt-2">View Details</a>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

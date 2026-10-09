@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="form-page">
+<div class="form-card">
+<h2 class="fw-bold">Farmer Registration</h2>
+<p class="text-muted">Create your account.</p>
+<form method="POST">
+<label>Full Name</label><input class="form-control mb-3" name="name" required>
+<label>Phone Number</label><input class="form-control mb-3" name="phone" required>
+<label>Email</label><input class="form-control mb-3" type="email" name="email" required>
+<label>Password</label><input class="form-control mb-3" type="password" name="password" required minlength="4">
+<button class="btn btn-success w-100">Register</button>
+</form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ item.name }}{% endblock %}
+{% block content %}
+<div class="container py-5">
+<div class="row g-5 align-items-center">
+<div class="col-md-5"><div class="detail-image">🚜</div></div>
+<div class="col-md-7">
+<span class="badge bg-success">{{ item.category }}</span>
+<h1 class="fw-bold mt-2">{{ item.name }}</h1>
+<p class="lead text-muted">{{ item.description }}</p>
+<p><b>Model:</b> {{ item.model }}</p>
+<h3 class="text-success">₹{{ "%.0f"|format(item.rent) }} / day</h3>
+{% if item.available %}
+<a class="btn btn-success btn-lg mt-3" href="{{ url_for('book', eid=item.id) }}">Book Now</a>
+{% else %}<button class="btn btn-secondary" disabled>Unavailable</button>{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

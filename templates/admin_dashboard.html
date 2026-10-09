@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="container py-5">
+<h2 class="fw-bold">Admin Dashboard</h2>
+<p class="text-muted">Manage farmers, equipment and booking requests.</p>
+<div class="row g-3 my-3">
+{% for label,value in [('Farmers',stats.farmers),('Equipment',stats.equipment),('Total Bookings',stats.bookings),('Pending',stats.pending)] %}
+<div class="col-6 col-lg-3"><div class="stat-card"><small>{{ label }}</small><h2>{{ value }}</h2></div></div>
+{% endfor %}
+</div>
+<div class="table-responsive mt-4">
+<table class="table table-bordered align-middle bg-white shadow-sm">
+<thead class="table-success"><tr><th>ID</th><th>Farmer</th><th>Phone</th><th>Equipment</th><th>Date</th><th>Duration</th><th>Location</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+{% for b in bookings %}
+<tr>
+<td>#{{ b.id }}</td><td>{{ b.farmer }}</td><td>{{ b.phone }}</td><td>{{ b.equipment_name }}</td><td>{{ b.booking_date }}</td><td>{{ b.duration }}</td><td>{{ b.location }}</td><td>₹{{ "%.0f"|format(b.total) }}</td>
+<td>{{ b.status }}</td>
+<td>{% if b.status == 'Pending' %}
+<a class="btn btn-sm btn-success" href="{{ url_for('update_booking', bid=b.id, action='approve') }}">Approve</a>
+<a class="btn btn-sm btn-danger" href="{{ url_for('update_booking', bid=b.id, action='reject') }}">Reject</a>
+{% else %}-{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endblock %}

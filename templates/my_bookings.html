@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<div class="container py-5">
+<h2 class="fw-bold mb-4">My Bookings</h2>
+{% if bookings %}
+<div class="table-responsive">
+<table class="table table-bordered align-middle bg-white shadow-sm">
+<thead class="table-success"><tr><th>ID</th><th>Equipment</th><th>Date</th><th>Duration</th><th>Location</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+<tbody>
+{% for b in bookings %}
+<tr>
+<td>#{{ b.id }}</td><td>{{ b.equipment_name }}</td><td>{{ b.booking_date }}</td>
+<td>{{ b.duration }} day(s)</td><td>{{ b.location }}</td><td>₹{{ "%.0f"|format(b.total) }}</td>
+<td><span class="badge {% if b.status=='Approved' %}bg-success{% elif b.status=='Rejected' %}bg-danger{% elif b.status=='Cancelled' %}bg-secondary{% else %}bg-warning text-dark{% endif %}">{{ b.status }}</span></td>
+<td>
+{% if b.status == 'Pending' %}
+<a class="btn btn-sm btn-success mb-1" href="{{ url_for('payment', bid=b.id) }}">Pay</a>
+<a class="btn btn-sm btn-outline-danger mb-1" href="{{ url_for('cancel_booking', bid=b.id) }}">Cancel</a>
+{% else %}-{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody></table>
+</div>
+{% else %}<div class="empty">No bookings yet. <a href="{{ url_for('index') }}">Book equipment</a>.</div>{% endif %}
+</div>
+{% endblock %}
