@@ -62,6 +62,8 @@ def init_db():
     );
     """)
 
+    init_db()
+
     admin = conn.execute("SELECT id FROM users WHERE email=?", ("admin@gmail.com",)).fetchone()
     if not admin:
         conn.execute(
